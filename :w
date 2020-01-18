@@ -1,4 +1,5 @@
 
+import sys
 import argparse
 
 parser = argparse.ArgumentParser(description='ARFF parsing tool')
@@ -29,12 +30,12 @@ def read_file(file_path):
 def main():
   data = read_file(input_path)
 
-  # build attributes
   attributes = [line for line in data.split('\n') if line.startswith('@attribute')]
+
   attributes = [attr.replace('\t', ' ') for attr in attributes]
   attributes = [attr.split(' ')[1] for attr in attributes]
+  print(attributes)
 
-  # build data
 
 if __name__ == '__main__':
   main()
