@@ -6,7 +6,7 @@ with open('README.md', 'r') as fh:
 
 setup(
   name='arffparse',
-  version='0.1',
+  version='0.5',
   description='Small ARFF parsing tool for datasets',
   long_description=long_description,
   license='MIT',
