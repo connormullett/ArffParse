@@ -39,7 +39,7 @@ def main():
 
   attributes = [line for line in data.split('\n') if line.startswith('@attribute')]
   attributes = [attr.replace('\t', ' ') for attr in attributes]
-  attributes = [attr.split(' ')[1] for attr in attributes]
+  attributes = [attr.split(' ')[1] + ',' for attr in attributes]
 
   # build data
   print_verbose('parsing data rows')
@@ -47,9 +47,12 @@ def main():
   data_rows = []
   found = False
   for line in data.split('\n'):
+
     if line.startswith('%'):
       continue
+
     if found:
+      line += '\n'
       data_rows.append(line)
 
     if line.startswith('@data'):
