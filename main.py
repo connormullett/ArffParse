@@ -8,17 +8,7 @@ parser.add_argument('-v', '--verbose', help='display more info',
     action='store_true')
 
 args = parser.parse_args()
-
-
-input_path = args.input
-output_path = args.out if args.out else None
-
-if not output_path:
-  output_path = input_path.split('.')[0] + '.csv'
-
-if args.verbose:
-  print('using input file %s' % input_path)
-  print('using output file %s' % output_path)
+verbose = args.verbose
 
 
 def read_file(file_path):
@@ -26,15 +16,55 @@ def read_file(file_path):
     return f.read()
 
 
+def print_verbose(msg):
+  if verbose:
+    print(msg)
+
+
 def main():
+
+  input_path = args.input
+  output_path = args.out if args.out else None
+
+  if not output_path:
+    output_path = input_path.split('.')[0] + '.csv'
+
+  print_verbose('using input file %s' % input_path)
+  print_verbose('using output file %s' % output_path)
+
   data = read_file(input_path)
 
   # build attributes
+  print_verbose('parsing attributes')
+
   attributes = [line for line in data.split('\n') if line.startswith('@attribute')]
   attributes = [attr.replace('\t', ' ') for attr in attributes]
   attributes = [attr.split(' ')[1] for attr in attributes]
 
   # build data
+  print_verbose('parsing data rows')
+
+  data_rows = []
+  found = False
+  for line in data.split('\n'):
+    if line.startswith('%'):
+      continue
+    if found:
+      data_rows.append(line)
+
+    if line.startswith('@data'):
+      found = True
+
+  print_verbose('writing to %s' % output_path)
+
+  # output data
+  with open(output_path, 'w+') as f:
+    f.writelines(attributes)
+    f.writelines(data_rows)
+    
+  print_verbose('finished writing .. cleaning up')
+  print('done')
+
 
 if __name__ == '__main__':
   main()
