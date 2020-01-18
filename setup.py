@@ -8,6 +8,7 @@ setup(
   description='Small ARFF parsing tool for datasets',
   license='MIT',
   url='https://github.com/connormullett/ArffParse',
-  author='arff parse'
+  author='arff parse',
+  author_email='connormullett@gmail.com'
 )
 
